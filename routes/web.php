@@ -16,11 +16,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/posts/{slug}',function($slug){
-    $path=(resource_path()."/views/posts/{$slug}.html");
+Route::get('/posts/{post}',function($slug){
+    $path=resource_path()."/posts/{$slug}.html";
+
+
     if(! file_exists($path)){
-        return redirect ('/');
+       return redirect('/');
     }
+    
     $post=file_get_contents($path);
+
     return view('post',['post'=>$post]);
-});
+})->where('post','[A-Z-_]+');
